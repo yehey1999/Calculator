@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Calculator.MainPage">
+
+    <Grid x:Name="GridHolder" RowSpacing="0" ColumnSpacing="0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Label x:Name="resultText" FontSize="48" BackgroundColor="Black" Text="{Binding MathematicalSentence}"
+              TextColor="White" HorizontalTextAlignment="End" VerticalTextAlignment="Center"
+              LineBreakMode="NoWrap" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" />
+
+        <Button Command="{Binding OnClickMemoryFeaturesCommand}" CommandParameter="MC" Text="MC" Grid.Row="1" Grid.Column="0"/>
+        <Button Command="{Binding OnClickMemoryFeaturesCommand}" CommandParameter="M+" Text="M+" Grid.Row="1" Grid.Column="1"/>
+        <Button Command="{Binding OnClickMemoryFeaturesCommand}" CommandParameter="M-" Text="M-" Grid.Row="1" Grid.Column="2"/>
+        <Button Command="{Binding OnClickMemoryFeaturesCommand}" CommandParameter="MR" Text="MR" Grid.Row="1" Grid.Column="3"/>
+
+        <Button Command="{Binding OnClickItemCommand}" CommandParameter="1" Text="1" Grid.Row="2" Grid.Column="0"/>
+        <Button Command="{Binding OnClickItemCommand}" CommandParameter="2" Text="2" Grid.Row="2" Grid.Column="1"/>
+        <Button Command="{Binding OnClickItemCommand}" CommandParameter="3" Text="3" Grid.Row="2" Grid.Column="2"/>
+        <Button Command="{Binding OnClickItemCommand}" CommandParameter="4" Text="4" Grid.Row="3" Grid.Column="0"/>
+        <Button Command="{Binding OnClickItemCommand}" CommandParameter="5" Text="5" Grid.Row="3" Grid.Column="1"/>
+        <Button Command="{Binding OnClickItemCommand}" CommandParameter="6" Text="6" Grid.Row="3" Grid.Column="2"/>
+        <Button Command="{Binding OnClickItemCommand}" CommandParameter="7" Text="7" Grid.Row="4" Grid.Column="0"/>
+        <Button Command="{Binding OnClickItemCommand}" CommandParameter="8" Text="8" Grid.Row="4" Grid.Column="1"/>
+        <Button Command="{Binding OnClickItemCommand}" CommandParameter="9" Text="9" Grid.Row="4" Grid.Column="2"/>
+        <Button Command="{Binding OnClickItemCommand}" CommandParameter="0" Text="0" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3"/>
+
+        <Button Command="{Binding OnClickItemCommand}" CommandParameter="/" Text="/" Grid.Row="2" Grid.Column="3"/>
+        <Button Command="{Binding OnClickItemCommand}" CommandParameter="*" Text="x" Grid.Row="3" Grid.Column="3"/>
+        <Button Command="{Binding OnClickItemCommand}" CommandParameter="-" Text="-" Grid.Row="4" Grid.Column="3"/>
+        <Button Command="{Binding OnClickItemCommand}" CommandParameter="+" Text="+" Grid.Row="5" Grid.Column="3"/>
+        <Button Command="{Binding OnClearMathematicalSentenceCommand}" Text="C" Grid.Row="6" Grid.Column="0"/>
+        <Button Command="{Binding OnCalculateAnswerCommand}" Text="=" Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="3"/>
+        
+
+    </Grid>
+
+</ContentPage>
