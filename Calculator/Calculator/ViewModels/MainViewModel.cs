@@ -1,5 +1,4 @@
-﻿using Calculator.Bases;
-using Calculator.Utilities;
+﻿using Calculator.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,29 +9,12 @@ namespace Calculator.ViewModels
     class MainViewModel : BaseModel
     {
         private string mathematicalSentence = "0";
-
-        public string[] Expression
-        {
-            get;
-            set;
-        }
-
-        public Command OnClickItemCommand { get; }
-        public Command OnClearMathematicalSentenceCommand { get; }
-        public Command OnCalculateAnswerCommand { get; }
-        public Command OnClickMemoryFeaturesCommand { get; }
-
-        public MainViewModel()
-        {
-            OnClickItemCommand = new Command<string>((value) => { OnClickItem(value); });
-            OnClickMemoryFeaturesCommand = new Command<string>((feature) => { OnClickMemoryFeatures(feature); });
-            OnClearMathematicalSentenceCommand = new Command(OnClearMathematicalSentence);
-            OnCalculateAnswerCommand = new Command(OnCalculateAnswer);
-        }
+        private string memoryValue = "0";
 
         public string MathematicalSentence
         {
-            get {
+            get
+            {
                 return mathematicalSentence;
             }
             set
@@ -42,10 +24,53 @@ namespace Calculator.ViewModels
             }
         }
 
-        private void OnClickItem(string value)
+        public string[] Expression
+        {
+            get;
+            set;
+        }
+
+        public string MemoryValue
+        {
+            get
+            {
+                return memoryValue;
+            }
+            set
+            {
+                memoryValue = value;
+            }
+        }
+
+        public Command OnClickDigitCommand { get; }
+        public Command OnClearMathematicalSentenceCommand { get; }
+        public Command OnCalculateAnswerCommand { get; }
+        public Command OnClickMemoryFeaturesCommand { get; }
+
+        public MainViewModel()
+        {
+            OnClickDigitCommand = new Command<string>((value) => { OnClickDigit(value); });
+            OnClickMemoryFeaturesCommand = new Command<string>((feature) => { OnClickMemoryFeatures(feature); });
+            OnClearMathematicalSentenceCommand = new Command(OnClearMathematicalSentence);
+            OnCalculateAnswerCommand = new Command(OnCalculateAnswer);
+        }
+
+        private void OnClickDigit(string value)
         {
             if (MathematicalSentence == "0")
+            {
                 MathematicalSentence = "";
+                if (value == ".")
+                {
+                    MathematicalSentence = "0.";
+                    return;
+                } else if (value == "-")
+                {
+                    MathematicalSentence = "-";
+                    return;
+                }
+            }
+                
             if (IsOperand(value) && IsOperand(MathematicalSentence.Substring(MathematicalSentence.Length - 1)))
             {
                 MathematicalSentence = MathematicalSentence.Remove(MathematicalSentence.Length - 1, 1);
@@ -70,7 +95,29 @@ namespace Calculator.ViewModels
 
         private void OnClickMemoryFeatures(string feature)
         {
-            MathematicalSentence = feature;
+            float number;
+            Postfix postfix;
+            switch(feature)
+            {
+                case "MC":
+                    MemoryValue = "0";
+                    break;
+                case "MR":
+                    MathematicalSentence = MemoryValue;
+                    break;
+                case "M+":
+                    postfix = new Postfix(MathematicalSentence);
+                    number = float.Parse(postfix.GetAnswer());
+                    MemoryValue = (float.Parse(MemoryValue) + number).ToString();
+                    break;
+                case "M-":
+                    postfix = new Postfix(MathematicalSentence);
+                    number = float.Parse(postfix.GetAnswer());
+                    MemoryValue = (float.Parse(MemoryValue) - number).ToString();
+                    break;
+                default:
+                    break;
+            }
         }
 
         private bool IsOperand(string value)

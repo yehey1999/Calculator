@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
+
 namespace Calculator.Utilities
 { 
     class Postfix
@@ -19,23 +20,23 @@ namespace Calculator.Utilities
 
         public string GetAnswer()
         {
-            string postfixEpression = ConvertInfixToPostfix(Expression);
+            List<string> postfixEpression = ConvertInfixToPostfix(Expression);
             return EvaluatePostfix(postfixEpression);
         }
 
-        private string EvaluatePostfix(string postfix)
+        private string EvaluatePostfix(List<string> postfix)
         {
             float a, b, ans;
             string answer;
             Stack<string> stack = new Stack<string>();
 
-            for (int j = 0; j < postfix.Length; j++)
+            for (int i = 0; i < postfix.Count; i++)
             {
-                string c = postfix.Substring(j, 1);
+                string c = postfix[i];
                 if (c.Equals("*"))
                 {
-                    string sa = stack.Pop().ToString();
-                    string sb = stack.Pop().ToString();
+                    string sa = stack.Pop();
+                    string sb = stack.Pop();
                     a = float.Parse(sb);
                     b = float.Parse(sa);
                     ans = a * b;
@@ -44,8 +45,8 @@ namespace Calculator.Utilities
                 }
                 else if (c.Equals("/"))
                 {
-                    string sa = stack.Pop().ToString();
-                    string sb = stack.Pop().ToString();
+                    string sa = stack.Pop();
+                    string sb = stack.Pop();
                     a = float.Parse(sb);
                     b = float.Parse(sa);
                     ans = a / b;
@@ -53,8 +54,8 @@ namespace Calculator.Utilities
                 }
                 else if (c.Equals("+"))
                 {
-                    string sa = stack.Pop().ToString();
-                    string sb = stack.Pop().ToString();
+                    string sa = stack.Pop();
+                    string sb = stack.Pop();
                     a = float.Parse(sb);
                     b = float.Parse(sa);
                     ans = a + b;
@@ -63,43 +64,55 @@ namespace Calculator.Utilities
                 }
                 else if (c.Equals("-"))
                 {
-                    string sa = stack.Pop().ToString();
-                    string sb = stack.Pop().ToString();
+                    string sa = stack.Pop();
+                    string sb = stack.Pop();
                     a = float.Parse(sb);
                     b = float.Parse(sa);
                     ans = a - b;
                     stack.Push(ans.ToString());
-
                 }
                 else
                 {
-                    stack.Push(postfix.Substring(j, 1));
+                    stack.Push(postfix[i]);
                 }
             }
             answer = stack.Pop().ToString();
             return answer;
         }
 
-        private string ConvertInfixToPostfix(string exp)
+        private List<string> ConvertInfixToPostfix(string expression)
         {
             Stack<string> stack = new Stack<string>();
-            string postfix = "";
+            List<string> postfix = new List<string>();
 
-            for (int i = 0; i < exp.Length; ++i)
+            for (int i = 0; i < expression.Length; ++i)
             {
-                char c = exp[i];
-                if (char.IsLetterOrDigit(c))
-                    postfix += c;
+                char c = expression[i];
+                if (char.IsLetterOrDigit(c) || (i == 0 && c == '-'))
+                {
+                    string number = c.ToString();
+                    if (i + 1 < expression.Length)
+                    {
+                        while (char.IsLetterOrDigit(expression[i + 1]) || expression[i + 1] == '.')
+                        {
+                            number += expression[i + 1].ToString();
+                            i++;
+                            if (i + 1 == expression.Length )
+                                break;
+                        }
+                    }
+                    postfix.Add(number);
+                }
                 else
                 {
                     while (stack.Count > 0 && GetOperandPrecedence(c.ToString()) <= GetOperandPrecedence(stack.Peek()))
-                        postfix += stack.Pop();
+                        postfix.Add(stack.Pop());
                     stack.Push(c.ToString());
                 }
 
             }
             while (stack.Count > 0)
-                postfix += stack.Pop();
+                postfix.Add(stack.Pop());
             return postfix;
         }
 
