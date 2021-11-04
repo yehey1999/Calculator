@@ -24,12 +24,6 @@ namespace Calculator.ViewModels
             }
         }
 
-        public string[] Expression
-        {
-            get;
-            set;
-        }
-
         public string MemoryValue
         {
             get
