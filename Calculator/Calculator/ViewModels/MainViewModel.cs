@@ -49,7 +49,8 @@ namespace Calculator.ViewModels
 
         public MainViewModel()
         {
-            OnClickDigitCommand = new Command<string>(OnClickDigit);
+            // OnClickDigitCommand = new Command<string>(OnClickDigit);
+            OnClickDigitCommand = new Command<string>(execute: (digit) => OnClickDigit(digit));
             OnClickMemoryFeaturesCommand = new Command<string>(OnClickMemoryFeatures);
             OnClearMathematicalSentenceCommand = new Command(OnClearMathematicalSentence);
             OnCalculateAnswerCommand = new Command(OnCalculateAnswer);
