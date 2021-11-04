@@ -9,7 +9,7 @@ namespace Calculator.ViewModels
     class MainViewModel : BaseModel
     {
         private string mathematicalSentence = "0";
-        private string memoryValue = "0";
+        private Stack<string> memoryValue = new Stack<string>();
 
         public string MathematicalSentence
         {
@@ -21,18 +21,6 @@ namespace Calculator.ViewModels
             {
                 mathematicalSentence = value;
                 OnPropertyChanged("MathematicalSentence");
-            }
-        }
-
-        public string MemoryValue
-        {
-            get
-            {
-                return memoryValue;
-            }
-            set
-            {
-                memoryValue = value;
             }
         }
 
@@ -95,20 +83,21 @@ namespace Calculator.ViewModels
             switch(feature)
             {
                 case "MC":
-                    MemoryValue = "0";
+                    memoryValue.Clear();
                     break;
                 case "MR":
-                    MathematicalSentence = MemoryValue;
+                    if (memoryValue.Count == 0)
+                        MathematicalSentence = memoryValue.Peek();
+                    else
+                        MathematicalSentence = "0";
                     break;
                 case "M+":
                     postfix = new Postfix(MathematicalSentence);
                     number = float.Parse(postfix.GetAnswer());
-                    MemoryValue = (float.Parse(MemoryValue) + number).ToString();
+                    memoryValue.Push(number.ToString());
                     break;
                 case "M-":
-                    postfix = new Postfix(MathematicalSentence);
-                    number = float.Parse(postfix.GetAnswer());
-                    MemoryValue = (float.Parse(MemoryValue) - number).ToString();
+                    memoryValue.Pop();
                     break;
                 default:
                     break;

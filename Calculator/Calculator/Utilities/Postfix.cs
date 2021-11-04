@@ -84,7 +84,6 @@ namespace Calculator.Utilities
         {
             Stack<string> stack = new Stack<string>();
             List<string> postfix = new List<string>();
-
             for (int i = 0; i < expression.Length; ++i)
             {
                 char c = expression[i];
