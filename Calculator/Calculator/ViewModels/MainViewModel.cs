@@ -42,15 +42,15 @@ namespace Calculator.ViewModels
             }
         }
 
-        public Command OnClickDigitCommand { get; }
-        public Command OnClearMathematicalSentenceCommand { get; }
-        public Command OnCalculateAnswerCommand { get; }
-        public Command OnClickMemoryFeaturesCommand { get; }
+        public Command OnClickDigitCommand { get; private set; }
+        public Command OnClearMathematicalSentenceCommand { get; private set; }
+        public Command OnCalculateAnswerCommand { get; private set; }
+        public Command OnClickMemoryFeaturesCommand { get; private set; }
 
         public MainViewModel()
         {
-            OnClickDigitCommand = new Command<string>((value) => { OnClickDigit(value); });
-            OnClickMemoryFeaturesCommand = new Command<string>((feature) => { OnClickMemoryFeatures(feature); });
+            OnClickDigitCommand = new Command<string>(OnClickDigit);
+            OnClickMemoryFeaturesCommand = new Command<string>(OnClickMemoryFeatures);
             OnClearMathematicalSentenceCommand = new Command(OnClearMathematicalSentence);
             OnCalculateAnswerCommand = new Command(OnCalculateAnswer);
         }
