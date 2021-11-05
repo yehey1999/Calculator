@@ -86,7 +86,7 @@ namespace Calculator.ViewModels
                     memoryValue.Clear();
                     break;
                 case "MR":
-                    if (memoryValue.Count != 0)
+                    if (memoryValue.Count == 0)
                         MathematicalSentence = memoryValue.Peek();
                     else
                         MathematicalSentence = "0";
